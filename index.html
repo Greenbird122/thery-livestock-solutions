@@ -12,25 +12,31 @@
 
     <body>
         <header>
-            <div class="container">
+            
+                <div class="intro">
                 <h1>Thery Sustainable Livestock Solutions</h1>
                 <nav>
                     <ul>
                         <li><a href="#home">Home</a></li>
                         <li><a href="#about">About Us</a></li>
                         <li><a href="#services">Services</a></li>
-                        <li><a href="#contact">Contact</a></li>
                         <li><a href="#gallery">Gallery</a></li>
                         <li><a href="#team">Team</a></li>
+                        <li><a href="#contact">Contact</a></li>
                     </ul>
                 </nav>
-            </div>
+                </div>
+        
         </header>
 
         <section id="home">
             <div class="container">
                 <h2>Welcome to Thery Sustainable Livestock Solutions</h2>
                 <p><b>Livestock solutions and operations in Bungoma.</b></p>
+                <p><b>Rooted in Bungoma, Committed to Excellence.</b></p>
+                <p>Thery Sustainable Livestock Solutions is more than just a dairy provider; we are a registered agricultural partner dedicated to revolutionizing livestock management in Bungoma County.
+
+Our journey began with a simple mission: to bridge the gap between traditional farming and modern, sustainable productivity. By integrating climate-smart practices with deep local knowledge, we help farmers increase their yields while preserving the environment. At Thery, we believe that healthy livestock and a healthy planet go hand-in-hand.<p></p>
                 <p>We are dedicated to providing innovative and sustainable solutions for livestock management. Our mission is to help farmers and ranchers improve their operations while minimizing environmental impact.</p>
             </div>
         </section>
@@ -50,7 +56,23 @@
             </div>
          </section>
 
-         <section id="team">
+         <section id="services">
+            <div class="container">
+                <h2>Our Services</h2>
+                <ul>
+                    <li>A. Sustainable Dairy Management
+We specialize in high-yield dairy farming that doesn't exhaust your land. From optimized feeding programs to eco-friendly waste management, we help you produce more milk with fewer resources.</li>
+
+<li>B. Premium Milk Production
+Quality you can trust. Our dairy operations prioritize hygiene and nutrition, delivering fresh, high-grade milk that meets the highest standards of safety and taste.</li>
+
+<li>C. Local Agricultural Consultancy
+Farming in Western Kenya comes with unique challenges. We offer on-ground livestock solutions and expertise tailored specifically to our local climate, soil, and market demands.</li>
+                </ul>
+            </div>
+         </section>
+
+          <section id="team">
             <div class="container">
                 <h2>Meet The Team</h2>
                 <p>Our team is composed of experienced professionals in the field of livestock management, veterinary science, and sustainable agriculture. We are passionate about helping our clients achieve their goals while promoting environmental stewardship.</p>
@@ -73,16 +95,17 @@
             </div>
          </section>
 
-         <section id="services">
+          <section id="gallery">
             <div class="container">
-                <h2>Our Services</h2>
-                <ul>
-                    <li>Sustainable Dairy Farming.</li>
-                    <li>Livestock Solutions.</li>
-                    <li>Local Agricultural Expertise.</li>
-                </ul>
+                <h2>Gallery</h2>
+                <div class="gallery-grid">
+                    <img src="./gallery/dairy.jpg" alt="Cow Eating Grass">
+                    <img src="./gallery/dairy-1.jpg" alt="Cow Images">
+                    <img src="./gallery/dairy-4.jpg" alt="Livestock Images">
+                    <img src="./gallery/livestock.jpg" alt="Farm Images">
+                </div>
             </div>
-         </section>
+        </section>
 
          <section id="contact">
             <div class="container">
@@ -96,17 +119,7 @@
             </div>
         </section>
 
-        <section id="gallery">
-            <div class="container">
-                <h2>Gallery</h2>
-                <div class="gallery-grid">
-                    <img src="./gallery/dairy.jpg" alt="Cow Eating Grass">
-                    <img src="./gallery/dairy-1.jpg" alt="Cow Images">
-                    <img src="./gallery/dairy-4.jpg" alt="Livestock Images">
-                    <img src="./gallery/livestock.jpg" alt="Farm Images">
-                </div>
-            </div>
-        </section>
+       
 
         <footer>
             <div class="container">
@@ -114,3 +127,65 @@
                 <p>Made by Austine Tech Co.</p>
             </div>
         </footer>
+
+        <!-- Lightbox Modal -->
+        <div id="lightbox" class="lightbox">
+            <span class="lightbox-close">&times;</span>
+            <img class="lightbox-content" id="lightbox-img">
+            <div id="lightbox-caption"></div>
+        </div>
+
+        <script>
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+            const closeBtn = document.querySelector('.lightbox-close');
+
+            document.querySelectorAll('.gallery-grid img').forEach(img => {
+                img.addEventListener('click', () => {
+                    lightbox.style.display = 'flex';
+                    lightboxImg.src = img.src;
+                    lightboxCaption.textContent = img.alt;
+                });
+            });
+
+            closeBtn.addEventListener('click', () => {
+                lightbox.style.display = 'none';
+            });
+
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    lightbox.style.display = 'none';
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    lightbox.style.display = 'none';
+                }
+            });
+
+          const observerOptions = {
+    threshold: 0.1, // Trigger slightly earlier for a smoother feel
+    rootMargin: '0px 0px -50px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('scroll-active');
+        } else {
+            // This allows the animation to reset when you scroll away
+            entry.target.classList.remove('scroll-active');
+        }
+    });
+}, observerOptions);
+
+// Observe both sections and containers
+document.querySelectorAll('section, .container').forEach(el => {
+    el.classList.add('scroll-animate');
+    observer.observe(el);
+});
+        </script>
+    </body>
+</html>
