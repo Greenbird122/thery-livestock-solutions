@@ -4,13 +4,28 @@
     box-sizing: border-box;
 }
 
+/* Scroll-triggered animations */
+.scroll-animate {
+    opacity: 0;
+    /* Combine Y and X if you want a diagonal slide, or just use one */
+    transform: translateY(30px); 
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    will-change: opacity, transform; /* Improves performance */
+}
+
+.scroll-animate.scroll-active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 body {
     font-family: 'Roboto', Arial, sans-serif;
     line-height: 1.6;
     color: #333;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9;
+    background: url('./gallery/dairy-4.jpg');
+    background-color: rgba(0,1,0,0.7);
 }
 
 .container {
@@ -18,10 +33,33 @@ body {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-style: outset;
+    border: 4px outset beige;
+    border-top-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    position: relative;
 }
 
+.intro{
+    background: linear-gradient(to right, forestgreen, skyblue);
+    padding: 20px;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+    border-style: none;
+    margin-bottom: 20px;
+    flex-direction: row;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute;
+    width: 100%;
+
+;
+}
 header {
-    background-color: #ffffff;
+    background: linear-gradient(to right, forestgreen, skyblue);
     border-bottom: 1px solid #e0e0e0;
     text-align: center;
     padding: 20px 0;
@@ -29,12 +67,13 @@ header {
     top: 0;
     z-index: 1000; 
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    height: 100px;
 }
 
 header h1 {
     margin: 0 0 10px 0;
     font-size: 1.8rem;
-    color: #2c3e50;
+    color: #4110d4;
 }
 
 nav ul {
@@ -49,25 +88,53 @@ nav ul li {
 }
 
 nav ul li a {
-    color: #2980b9;
+    color: rgb(69, 2, 7);
     text-decoration: none;
     font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #00ffd5;
+    text-shadow: 0 0 8px rgba(0, 255, 213, 0.5);
 }
 
 
 section {
-    background-color: #ffffff;
+    background: rgba(0,0,0,0.5);
     margin: 20px 0;
+    color: gold;
     padding: 20px;
     border-radius: 4px;
     border: 1px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 255, 213, 0.3);
+    border-color: #00ffd5;
+}
+
+/* Scroll-triggered active state (like hover) */
+section.scroll-active {
+    transform: translateY(-5px);
+    transform: translateX(-5px);
+    box-shadow: 0 8px 25px rgba(0, 255, 213, 0.3);
+    border-color: #00ffd5;
 }
 
 section h2 {
-    color: #2c3e50;
+    color: #08d86d;
     border-bottom: 2px solid #2ecc71;
     padding-bottom: 5px;
     margin-top: 0;
+    transition: all 0.3s ease;
+}
+
+section h2:hover {
+    color: #00ffd5;
+    text-shadow: 0 0 8px rgba(0, 255, 213, 0.5);
 }
 
 .gallery-grid {
@@ -83,6 +150,14 @@ section h2 {
     object-fit: cover;
     border-radius: 4px;
     border: 1px solid #ddd;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.gallery-grid img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 255, 213, 0.5);
+    border-color: #00ffd5;
 }
 
 img{
@@ -116,10 +191,81 @@ img{
     border-radius: 8px;
     border: 2px solid #2ecc71;
     background-color: #eee;
+    transition: all 0.3s ease;
 }
+
+.team-image img:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 20px rgba(46, 204, 113, 0.6);
+    border-color: #00ffd5;
+}
+
 footer {
+    background-color: #333;
     text-align: center;
     padding: 20px 0;
-    color: #7f8c8d;
+    color: #eff2f2;
     font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+footer:hover {
+    box-shadow: 0 -5px 15px rgba(0, 255, 213, 0.2);
+}
+
+/* Lightbox Styles */
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 80vh;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+#lightbox-caption {
+    color: #fff;
+    margin-top: 15px;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.lightbox-close:hover {
+    color: #2ecc71;
+}
+
+@media (max-width:768px){
+    header h1 {
+        font-size: 1.5rem;
+    }
+    .intro {
+        flex-direction: column;
+        align-items: center;
+        font-size: 0.6rem;
+        
+    }
+    
 }
